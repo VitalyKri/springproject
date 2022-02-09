@@ -19,7 +19,10 @@ public class HibernateProductDao implements ProductDao {
         return Collections.unmodifiableList(sessionFactory.getCurrentSession().getNamedQuery("Product.getAll").list());
     }
 
-
+    @Override
+    public Product findRandom() {
+        return null;
+    }
 
     @Override
     @Transactional(readOnly = true)

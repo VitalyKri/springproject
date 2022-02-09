@@ -19,6 +19,11 @@ public class JdbcTemplateProductDao implements ProductDao {
     }
 
     @Override
+    public Product findRandom() {
+        return null;
+    }
+
+    @Override
     public void insert(Product manufacturer) {
 
     }
@@ -48,7 +53,7 @@ public class JdbcTemplateProductDao implements ProductDao {
 
     @Override
     public Product findById(Long id) {
-        return  null;
+        return null;
     }
 
     @Override
