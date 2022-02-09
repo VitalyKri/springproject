@@ -38,7 +38,7 @@ public class JpaManufacturerDao implements ManufacturerDao {
     @Override
     public Manufacturer save(Manufacturer manufacturer) {
         if (manufacturer.getId() == null){
-            entityManager.persist(manufacturer);// помещаем в базу
+            entityManager.persist(manufacturer);// помещаем в базу полностью
         } else {
             entityManager.merge(manufacturer); // обновляем
         }
@@ -47,12 +47,12 @@ public class JpaManufacturerDao implements ManufacturerDao {
 
     @Override
     public void insert(Manufacturer manufacturer) {
-
+        entityManager.persist(manufacturer);
     }
 
     @Override
     public void update(Manufacturer manufacturer) {
-
+        entityManager.merge(manufacturer);
     }
 
     @Override

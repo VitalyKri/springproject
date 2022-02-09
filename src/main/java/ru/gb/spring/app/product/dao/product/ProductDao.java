@@ -13,4 +13,5 @@ public interface ProductDao {
     void insert(Product manufacturer);
     void update(Product manufacturer);
     void deleteById(Long id);
+    Product findRandom();
 }

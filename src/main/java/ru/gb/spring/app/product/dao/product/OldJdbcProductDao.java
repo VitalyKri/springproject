@@ -11,11 +11,11 @@ import java.util.List;
 public class OldJdbcProductDao implements ProductDao {
 
     private Connection getConnection() throws SQLException {
-        return  DriverManager.getConnection("jdbc:postgresql://localhost:5432/gb_shop","geek","geek");
+        return DriverManager.getConnection("jdbc:postgresql://localhost:5432/gb_shop", "geek", "geek");
     }
 
-    private void closeConnection(Connection connection){
-        if (connection == null){
+    private void closeConnection(Connection connection) {
+        if (connection == null) {
             return;
         }
 
@@ -35,13 +35,13 @@ public class OldJdbcProductDao implements ProductDao {
             connection = getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM product");
             ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()){
+            while (resultSet.next()) {
                 Product product = Product.builder()
-                                    .cost(resultSet.getBigDecimal("cost"))
-                                    .title(resultSet.getString("title"))
-                                    .date(resultSet.getDate("manufacture_date").toLocalDate())
-                                    .id(resultSet.getLong("id"))
-                                    .build();
+                        .cost(resultSet.getBigDecimal("cost"))
+                        .title(resultSet.getString("title"))
+                        .date(resultSet.getDate("manufacture_date").toLocalDate())
+                        .id(resultSet.getLong("id"))
+                        .build();
                 productSet.add(product);
             }
 
@@ -62,10 +62,10 @@ public class OldJdbcProductDao implements ProductDao {
         try {
             connection = getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM product where id = ?");
-            preparedStatement.setLong(1,id);
+            preparedStatement.setLong(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
 
-            while (resultSet.next()){
+            while (resultSet.next()) {
                 product = Product.builder()
                         .cost(resultSet.getBigDecimal("cost"))
                         .title(resultSet.getString("title"))
@@ -82,6 +82,11 @@ public class OldJdbcProductDao implements ProductDao {
             return product;
         }
 
+    }
+
+    @Override
+    public Product findRandom() {
+        return null;
     }
 
     @Override

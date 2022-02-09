@@ -19,7 +19,6 @@ public class SpringJDBCProductDao implements ProductDao {
     private final DataSource dataSource;
 
 
-
     @Override
     public List<Product> findAll() {
         return null;
@@ -32,10 +31,10 @@ public class SpringJDBCProductDao implements ProductDao {
         try {
             connection = dataSource.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM product where id = ?");
-            preparedStatement.setLong(1,id);
+            preparedStatement.setLong(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
 
-            while (resultSet.next()){
+            while (resultSet.next()) {
                 product = Product.builder()
                         .cost(resultSet.getBigDecimal("cost"))
                         .title(resultSet.getString("title"))
@@ -56,6 +55,11 @@ public class SpringJDBCProductDao implements ProductDao {
             return product;
         }
 
+    }
+
+    @Override
+    public Product findRandom() {
+        return null;
     }
 
     @Override

@@ -27,10 +27,15 @@ public class NamedParameterJDBCTemplateProductDao implements ProductDao {
     }
 
     @Override
+    public Product findRandom() {
+        return null;
+    }
+
+    @Override
     public Product findById(Long id) {
         String sql = "Select * from product as p where p.id = :id";
-        HashMap<String,Object> mapParams = new HashMap<>();
-        mapParams.put("id",id);
+        HashMap<String, Object> mapParams = new HashMap<>();
+        mapParams.put("id", id);
 
         Product product = namedParameterJdbcTemplate.queryForObject(sql, mapParams,
                 (rs, rowNum) -> Product.builder()
@@ -39,7 +44,7 @@ public class NamedParameterJDBCTemplateProductDao implements ProductDao {
                         .title(rs.getString("title"))
                         .date(rs.getDate("manufacture_date").toLocalDate())
                         .build()
-                        );
+        );
         return product;
     }
 

@@ -9,7 +9,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
-@Repository
+//@Repository
 @Transactional
 public class JpaManufacturerDao implements ManufacturerDao {
 
