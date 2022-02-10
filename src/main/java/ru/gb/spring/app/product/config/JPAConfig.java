@@ -13,6 +13,7 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 import java.sql.Driver;
@@ -20,7 +21,7 @@ import java.util.Properties;
 
 
 @Configuration
-@ComponentScan("ru.gb.classwork.classwork5")
+@ComponentScan("ru.gb.spring.app")
 @EnableTransactionManagement
 @PropertySource("classpath:dao/jdbc.properties")
 public class JPAConfig {
@@ -52,6 +53,11 @@ public class JPAConfig {
         return null;
     }
 
+    @Bean
+    public EntityManager entityManager(EntityManagerFactory entityManagerFactory) {
+        return entityManagerFactory.createEntityManager();
+    }
+
     private Properties hibernateProperties() {
         Properties hibernateProperties = new Properties();
         hibernateProperties.put("hibernate.dialect", "org.hibernate.dialect.ProgressDialect");// он сам решает какой синтаксис SQL
@@ -69,7 +75,7 @@ public class JPAConfig {
     @Bean
     public EntityManagerFactory entityManagerFactory(){
         LocalContainerEntityManagerFactoryBean factoryBean = new LocalContainerEntityManagerFactoryBean();
-        factoryBean.setPackagesToScan("ru.gb.classwork.classwork5"); // папка где сканируются бины
+        factoryBean.setPackagesToScan("ru.gb.spring.app.product"); // папка где сканируются бины
         factoryBean.setDataSource(dataSource());
         factoryBean.setJpaVendorAdapter(jpaVendorAdapter()); // кто у нас вендор
         factoryBean.setJpaProperties(hibernateProperties());

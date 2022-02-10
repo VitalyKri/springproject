@@ -23,7 +23,7 @@ import java.util.Set;
                 query = "select p from Product p")})
 public class Product {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
@@ -45,7 +45,7 @@ public class Product {
                 ", title='" + title + '\'' +
                 ", cost=" + cost +
                 ", date=" + date +
-                ", manufacturer=" + manufacturer.getName() +
+               // ", manufacturer=" + manufacturer.getName() +
                 ", carts=" + carts +
                 '}';
     }
