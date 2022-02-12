@@ -17,7 +17,9 @@
     <br>
     title: <form:textarea  path="title"/>
     <br>
-    title: <form:textarea  path="title"/>
+    manufacturer: <form:textarea  path="manufacturer.id"/>
+    <br>
+    manufacturer name: <form:textarea readonly="true"  path="manufacturer.name"/>
     <br>
     <input type="submit" value="Save"/>
 </form:form>

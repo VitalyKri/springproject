@@ -1,10 +1,13 @@
 package ru.gb.spring.app.product.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import ru.gb.spring.app.product.dao.ManufacturerDao;
+import ru.gb.spring.app.product.entity.Manufacturer;
 import ru.gb.spring.app.product.entity.Product;
 import ru.gb.spring.app.product.service.ProductService;
 
@@ -15,7 +18,7 @@ import ru.gb.spring.app.product.service.ProductService;
 public class ProductController {
 
     private final ProductService productService;
-
+    private final ManufacturerDao manufacturerDao;
 
     //форма создания сообщений
     @GetMapping("/create")
@@ -37,6 +40,10 @@ public class ProductController {
             Product byId = productService.findById(id);
             byId.setTitle(product.getTitle());
             byId.setCost(product.getCost());
+            Manufacturer manufacturer = byId.getManufacturer();
+            if (manufacturer != null){
+                byId.setManufacturer(manufacturerDao.getById(manufacturer.getId()));
+            }
             productService.edit(byId);
         }
         return "redirect:/product/all"; // ключевое слово перенаправления
@@ -59,9 +66,16 @@ public class ProductController {
         return "product/product";
     }
     // показать все элементов,
-    @GetMapping("/all")
-    public String getAllProducts(Model model){
-        model.addAttribute("products",productService.findActiveAll());
+    @GetMapping("/all") //// localhost:8080/all?direction=asc
+    public String getAllProducts(Model model,
+                                 @RequestParam(name = "direction", defaultValue = "ASC",
+                                         required = false) String direction){
+        direction = direction.toUpperCase();
+        if (!direction.equals("DESC")){
+            direction = "ASC";
+        }
+        Sort.Direction directionSort = Sort.Direction.valueOf(direction);
+        model.addAttribute("products",productService.findAllActiveSortedById(directionSort));
         return "product/product-list";
     }
 
