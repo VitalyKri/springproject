@@ -74,8 +74,8 @@ public class ProductService {
         return productDao.findAllByStatus(Status.ACTIVE,PageRequest.of(page, size));
     }
 
-    public List<Product> findAllActiveSortedById(){
-        return productDao.findAllByStatus(Status.ACTIVE, Sort.by(Sort.Direction.DESC,"id"));
+    public List<Product> findAllActiveSortedById(Sort.Direction sort){
+        return productDao.findAllByStatus(Status.ACTIVE, Sort.by(sort,"cost"));
     }
 
     public List<Product> findAllActiveSortedById(int page, int size){
