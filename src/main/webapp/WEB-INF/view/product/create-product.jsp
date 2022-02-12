@@ -17,6 +17,8 @@
     <br>
     title: <form:textarea  path="title"/>
     <br>
+    title: <form:textarea  path="title"/>
+    <br>
     <input type="submit" value="Save"/>
 </form:form>
 

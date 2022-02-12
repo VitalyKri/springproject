@@ -30,10 +30,14 @@ public class ProductController {
     // обработчик формы создания и редактирования, /Product/edit/{id}
     @PostMapping("/create")
     public String processForm(Product product){
-        if (product.getId() == null){
+        Long id =  product.getId();
+        if (id == null){
             productService.save(product);
         } else {
-            productService.edit(product);
+            Product byId = productService.findById(id);
+            byId.setTitle(product.getTitle());
+            byId.setCost(product.getCost());
+            productService.edit(byId);
         }
         return "redirect:/product/all"; // ключевое слово перенаправления
     }
@@ -42,7 +46,7 @@ public class ProductController {
     // показать 1 элемент,
     @GetMapping("/{id}") // localhost:8080/Product/{id}?random=true
     public String getProductById(Model model,
-                                 @PathVariable Integer id,
+                                 @PathVariable Long id,
                                  @RequestParam(name = "random", defaultValue = "false",
                                  required = false) Boolean isRandom){
         Product product;
@@ -57,20 +61,20 @@ public class ProductController {
     // показать все элементов,
     @GetMapping("/all")
     public String getAllProducts(Model model){
-        model.addAttribute("products",productService.findAll());
+        model.addAttribute("products",productService.findActiveAll());
         return "product/product-list";
     }
 
 
     // удаление /Product/delete/{id}
     @GetMapping("/delete")
-    public String deleteByID(@RequestParam Integer id){
-        productService.deleteByID(id);
+    public String deleteByID(@RequestParam Long id){
+        productService.disableById(id);
         return "redirect:/product/all";
     }
 
     @GetMapping("/edit")
-    public String editById(Model model,@RequestParam Integer id){
+    public String editById(Model model,@RequestParam Long id){
         Product product = productService.findById(id);
         model.addAttribute("product",product);
         return "product/create-product";
